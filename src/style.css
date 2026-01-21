@@ -1,0 +1,7 @@
+.green {
+  color: green;
+}
+.red {
+  color: red;
+  text-decoration: underline red 1px;
+}
