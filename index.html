@@ -8,7 +8,31 @@
     <title>typing-speed-test</title>
   </head>
   <body>
-    <div id="app"></div>
+    <header>
+      <nav>
+        <div class="stats">
+          <div>
+            <span>WPM: </span><span>40</span> <span>Accurary: </span>
+            <span id="percent">0%</span>
+            <span>Time: <span></span> 0:46</span>
+          </div>
+          <div class="btn-group">
+            <input type="radio" name="option" id="opt1" checked value="easy" />
+            <label for="opt1">Easy</label>
+
+            <input type="radio" name="option" id="opt2" value="medium" />
+            <label for="opt2">Medium</label>
+
+            <input type="radio" name="option" id="opt3" value="hard" />
+            <label for="opt3">Hard</label>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div id="app"></div>
+    </main>
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/modules/json.js"></script>
   </body>

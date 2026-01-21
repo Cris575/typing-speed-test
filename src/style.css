@@ -1,7 +1,11 @@
-.green {
+.successes {
   color: green;
 }
-.red {
+.wrong {
   color: red;
   text-decoration: underline red 1px;
+}
+
+.stats{
+  display: flex;
 }

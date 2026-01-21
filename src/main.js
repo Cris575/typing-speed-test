@@ -9,7 +9,8 @@ let letters = [];
 
 const dataJson = await getData();
 
-initGame('easy', 0);
+
+initGame('easy', 0)
 initKeyboardListener();
 
 /* ---------- INIT ---------- */
@@ -20,10 +21,24 @@ function initGame(difficulty, level) {
 
   letters = text.split("");
   renderText(letters);
+  initOptionsListener();
 }
 
 function initKeyboardListener() {
   document.addEventListener("keydown", handleKeyPress);
+}
+
+function initOptionsListener() {
+  document.querySelectorAll("input[type='radio']").forEach(e =>{
+    e.addEventListener('change', changeDifficulty)
+  })
+}
+
+function changeDifficulty(option){
+  const difficulty = option.target.value;
+  const level = Math.floor(Math.random() * 10);
+
+  initGame(difficulty, level);
 }
 
 /* ---------- UI ---------- */
@@ -50,15 +65,15 @@ function validateLetter(span, key) {
   const isCorrect =
     span.textContent.toUpperCase() === key.toUpperCase();
 
-  span.classList.add(isCorrect ? "green" : "red");
+  span.classList.add(isCorrect ? "successes" : "wrong");
 }
 
 function updateAccuracy() {
   const total = app.children.length;
-  const errors = app.querySelectorAll("span.red").length;
+  const errors = app.querySelectorAll("span.wrong").length;
 
   const accuracy = calculateAccuracy(total, errors);
-  console.log(accuracy);
+  document.querySelector("#percent").textContent = accuracy + "%";
 }
 
 /* ---------- PURE FUNCTIONS ---------- */
