@@ -1,49 +1,72 @@
-'use-strict'
+'use strict';
 
 import { getData } from "./modules/json";
 
+const app = document.querySelector("#app");
+
+let currentIndex = 0;
+let letters = [];
+
 const dataJson = await getData();
-let text = "";
-let count = 0;
 
-document.addEventListener("keypress", (event)=>{
-  count++;
-  checkLetter(event,count)
-})
+initGame('easy', 0);
+initKeyboardListener();
 
-getText('easy', 0)
-//console.log(dataJson);
+/* ---------- INIT ---------- */
 
-function getText(difficulty, level){
-  text = dataJson[difficulty][level].text;
+function initGame(difficulty, level) {
+  const text = dataJson[difficulty][level].text;
+  if (!text) return;
 
-  if(text !== '')
-    showText()
+  letters = text.split("");
+  renderText(letters);
 }
 
-function showText(){
-  text.split("").forEach((letter) =>{
-      document.querySelector("#app").innerHTML += `<span>${letter}</span>`;
-  });
+function initKeyboardListener() {
+  document.addEventListener("keydown", handleKeyPress);
 }
 
-function checkLetter(event,count){
-  const span = document.querySelector(`#app span:nth-child(${count})`);
+/* ---------- UI ---------- */
 
-  if(span.textContent.toUpperCase() == event.key.toUpperCase())
-    span.classList.add("green");
-  else span.classList.add("red");
-
-  calculateAccurary();
+function renderText(letters) {
+  app.innerHTML = letters
+    .map(letter => `<span>${letter}</span>`)
+    .join("");
 }
 
-function calculateAccurary(){
-   console.log(
-      (
-        100 -
-        (document.querySelectorAll(`#app span.red`).length /
-          document.querySelectorAll(`#app span`).length) *
-          100
-      ).toFixed(2),
-    );
+/* ---------- LOGIC ---------- */
+
+function handleKeyPress(event) {
+  const span = getCurrentSpan();
+  if (!span) return;
+
+  validateLetter(span, event.key);
+  updateAccuracy();
+
+  currentIndex++;
+}
+
+function validateLetter(span, key) {
+  const isCorrect =
+    span.textContent.toUpperCase() === key.toUpperCase();
+
+  span.classList.add(isCorrect ? "green" : "red");
+}
+
+function updateAccuracy() {
+  const total = app.children.length;
+  const errors = app.querySelectorAll("span.red").length;
+
+  const accuracy = calculateAccuracy(total, errors);
+  console.log(accuracy);
+}
+
+/* ---------- PURE FUNCTIONS ---------- */
+
+function calculateAccuracy(total, errors) {
+  return (100 - (errors / total) * 100).toFixed(2);
+}
+
+function getCurrentSpan() {
+  return app.children[currentIndex];
 }
