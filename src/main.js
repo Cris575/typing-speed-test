@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import { getData } from "./modules/json";
 
@@ -9,8 +9,7 @@ let letters = [];
 
 const dataJson = await getData();
 
-
-initGame('easy', 0)
+initGame("easy", 0);
 initKeyboardListener();
 
 /* ---------- INIT ---------- */
@@ -29,12 +28,12 @@ function initKeyboardListener() {
 }
 
 function initOptionsListener() {
-  document.querySelectorAll("input[type='radio']").forEach(e =>{
-    e.addEventListener('change', changeDifficulty)
-  })
+  document.querySelectorAll("input[type='radio']").forEach((e) => {
+    e.addEventListener("change", changeDifficulty);
+  });
 }
 
-function changeDifficulty(option){
+function changeDifficulty(option) {
   const difficulty = option.target.value;
   const level = Math.floor(Math.random() * 10);
 
@@ -44,9 +43,7 @@ function changeDifficulty(option){
 /* ---------- UI ---------- */
 
 function renderText(letters) {
-  app.innerHTML = letters
-    .map(letter => `<span>${letter}</span>`)
-    .join("");
+  app.innerHTML = letters.map((letter) => `<span>${letter}</span>`).join("");
 }
 
 /* ---------- LOGIC ---------- */
@@ -55,6 +52,12 @@ function handleKeyPress(event) {
   const span = getCurrentSpan();
   if (!span) return;
 
+  const netx = span.nextSibling;
+  const previous = netx.previousSibling;
+
+  netx?.classList.add("active");
+  previous?.classList.remove("active");
+
   validateLetter(span, event.key);
   updateAccuracy();
 
@@ -62,8 +65,7 @@ function handleKeyPress(event) {
 }
 
 function validateLetter(span, key) {
-  const isCorrect =
-    span.textContent.toUpperCase() === key.toUpperCase();
+  const isCorrect = span.textContent.toUpperCase() === key.toUpperCase();
 
   span.classList.add(isCorrect ? "successes" : "wrong");
 }

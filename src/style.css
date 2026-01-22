@@ -6,6 +6,10 @@
   text-decoration: underline red 1px;
 }
 
-.stats{
+.stats {
   display: flex;
+}
+
+.active {
+  background-color: rgb(181, 177, 177);
 }
