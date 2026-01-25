@@ -43,7 +43,9 @@ function changeDifficulty(option) {
 /* ---------- UI ---------- */
 
 function renderText(letters) {
-  app.innerHTML = letters.map((letter) => `<span>${letter}</span>`).join("");
+  app.innerHTML = letters
+    .map((letter) => `<div><span>${letter}</span></div>`)
+    .join("");
 }
 
 /* ---------- LOGIC ---------- */
@@ -53,7 +55,7 @@ function handleKeyPress(event) {
   if (!span) return;
 
   const netx = span.nextSibling;
-  const previous = netx.previousSibling;
+  const previous = netx?.previousSibling;
 
   netx?.classList.add("active");
   previous?.classList.remove("active");
@@ -72,7 +74,7 @@ function validateLetter(span, key) {
 
 function updateAccuracy() {
   const total = app.children.length;
-  const errors = app.querySelectorAll("span.wrong").length;
+  const errors = app.querySelectorAll("div.wrong").length;
 
   const accuracy = calculateAccuracy(total, errors);
   document.querySelector("#percent").textContent = accuracy + "%";
