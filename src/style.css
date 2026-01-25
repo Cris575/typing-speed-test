@@ -1,17 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
 
 :root {
-  --color-neutral-500: #121212;
+  --color-neutral-900: #121212;
+  --color-neutral-500: #717178;
   --color-neutral-400: #949497;
 
   --color-green-500: #4dd67b;
   --color-red-500: #d64d5b;
 
   --text-preset-1-regular: "Sora", sans-serif;
+
+  --radius-8: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: var(--color-neutral-500);
+  background-color: var(--color-neutral-900);
   color: white;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -63,4 +72,23 @@ body {
   top: 10px;
   border-radius: 5px;
   background-color: #9494975b;
+}
+
+/* buttons */
+label {
+  cursor: pointer;
+  border: 1px solid white;
+  padding: 10px 20px;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"] + label {
+  display: inline-block;
+  border-color: var(--color-neutral-500);
+  border-radius: var(--radius-8);
+  padding: 10px 6px;
+  height: 31px;
 }
