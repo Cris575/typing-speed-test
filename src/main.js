@@ -108,6 +108,8 @@ function startTimer() {
   const timerElement = document.querySelector("#timer");
   let timeLeft = 60;
 
+  // TODO: clear setInterval
+
   const timerInsterval = setInterval(() => {
     timeLeft--;
     timerElement.textContent = `0:${timeLeft < 10 ? "0" + timeLeft : timeLeft}`;
