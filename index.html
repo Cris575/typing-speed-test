@@ -14,24 +14,53 @@
           <div>
             <span>WPM: </span><span>40</span> <span>Accurary: </span>
             <span id="percent">0%</span>
-            <span>Time: <span></span> 0:46</span>
+            <span>Time: <span id="timer">0:60</span></span>
           </div>
-          <div class="btn-group">
-            <input type="radio" name="option" id="opt1" checked value="easy" />
+          <div class="btn-group-difficulty">
+            <input
+              type="radio"
+              name="option-difficulty"
+              id="opt1"
+              checked
+              value="easy"
+            />
             <label for="opt1">Easy</label>
 
-            <input type="radio" name="option" id="opt2" value="medium" />
+            <input
+              type="radio"
+              name="option-difficulty"
+              id="opt2"
+              value="medium"
+            />
             <label for="opt2">Medium</label>
 
-            <input type="radio" name="option" id="opt3" value="hard" />
+            <input
+              type="radio"
+              name="option-difficulty"
+              id="opt3"
+              value="hard"
+            />
             <label for="opt3">Hard</label>
+          </div>
+          <div class="btn-group-mode">
+            <input
+              type="radio"
+              name="option-mode"
+              id="opt4"
+              checked
+              value="easy"
+            />
+            <label for="opt4">Timer(60s)</label>
+
+            <input type="radio" name="option-mode" id="opt5" value="medium" />
+            <label for="opt5">Passage</label>
           </div>
         </div>
       </nav>
     </header>
 
     <main>
-      <div id="app"></div>
+      <div id="app" class="blur"></div>
     </main>
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/modules/json.js"></script>

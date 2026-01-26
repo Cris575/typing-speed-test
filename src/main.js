@@ -24,11 +24,14 @@ function initGame(difficulty, level) {
 }
 
 function initKeyboardListener() {
-  document.addEventListener("keydown", handleKeyPress);
+  document.addEventListener("keydown", (event) => {
+    if (event.repeat) return;
+    handleKeyPress(event);
+  });
 }
 
 function initOptionsListener() {
-  document.querySelectorAll("input[type='radio']").forEach((e) => {
+  document.querySelectorAll("input[name='option-difficulty']").forEach((e) => {
     e.addEventListener("change", changeDifficulty);
   });
 }
@@ -51,19 +54,30 @@ function renderText(letters) {
 /* ---------- LOGIC ---------- */
 
 function handleKeyPress(event) {
+  if (app.classList.contains("blur")) {
+    app.classList.remove("blur");
+    app.firstChild.classList.add("active");
+    const timerButton = document.querySelector("#opt4:checked");
+    if (timerButton) startTimer();
+    return;
+  }
+
   const span = getCurrentSpan();
   if (!span) return;
 
-  const netx = span.nextSibling;
-  const previous = netx?.previousSibling;
-
-  netx?.classList.add("active");
-  previous?.classList.remove("active");
-
+  letterIndication(span);
   validateLetter(span, event.key);
   updateAccuracy();
 
   currentIndex++;
+}
+
+function letterIndication(span) {
+  const next = span.nextSibling;
+  const previous = next?.previousSibling;
+
+  next?.classList.add("active");
+  previous?.classList.remove("active");
 }
 
 function validateLetter(span, key) {
@@ -88,4 +102,16 @@ function calculateAccuracy(total, errors) {
 
 function getCurrentSpan() {
   return app.children[currentIndex];
+}
+
+function startTimer() {
+  const timerElement = document.querySelector("#timer");
+  let timeLeft = 60;
+
+  const timerInsterval = setInterval(() => {
+    timeLeft--;
+    timerElement.textContent = `0:${timeLeft < 10 ? "0" + timeLeft : timeLeft}`;
+  }, 1000);
+
+  return timerInsterval;
 }
