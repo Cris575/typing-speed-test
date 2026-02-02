@@ -127,10 +127,16 @@ function startTimer() {
   return timerInterval;
 }
 
+function calculateWPM() {
+  const total = app.children.length;
+  return (total / 5) / parseFloat(timeLeft / 60);
+}
+
 function endGame() {
-  confetti();
+  confetti();  
   app.classList.add("hide");
   document.querySelector("#win-page").classList.remove("hide");
-  document.querySelector("#win-page #percent").textContent = accuracy + "%";
-  document.querySelector("#win-page #timer").textContent = timeLeft + "s";
+  document.querySelector("#win-page #win-wpm").textContent = calculateWPM();
+  document.querySelector("#win-page #win-percent").textContent = accuracy + "%";
+  document.querySelector("#win-page #win-timer").textContent = timeLeft + "s";
 }

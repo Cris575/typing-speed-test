@@ -1,82 +1,63 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="stylesheet" href="/src/style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>typing-speed-test</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <div class="stats">
-          <div>
-            <span>WPM: </span><span>40</span> <span>Accurary: </span>
-            <span id="percent">0%</span>
-            <span>Time: <span id="timer">0:60</span></span>
-          </div>
-          <div class="btn-group-difficulty">
-            <input
-              type="radio"
-              name="option-difficulty"
-              id="opt1"
-              checked
-              value="easy"
-            />
-            <label for="opt1">Easy</label>
 
-            <input
-              type="radio"
-              name="option-difficulty"
-              id="opt2"
-              value="medium"
-            />
-            <label for="opt2">Medium</label>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>typing-speed-test</title>
+</head>
 
-            <input
-              type="radio"
-              name="option-difficulty"
-              id="opt3"
-              value="hard"
-            />
-            <label for="opt3">Hard</label>
-          </div>
-          <div class="btn-group-mode">
-            <input
-              type="radio"
-              name="option-mode"
-              id="opt4"
-              checked
-              value="easy"
-            />
-            <label for="opt4">Timer(60s)</label>
-
-            <input type="radio" name="option-mode" id="opt5" value="medium" />
-            <label for="opt5">Passage</label>
-          </div>
+<body>
+  <header>
+    <div class="logo">
+      <img src="assets/images/logo-large.svg" alt="Logotipo de la empresa" role="img">
+    </div>
+  </header>
+  <main>
+    <section>
+      <div class="stats">
+        <div>
+          <span>WPM: </span><span>40</span> <span>Accurary: </span>
+          <span id="percent">0%</span>
+          <span>Time: <span id="timer">0:60</span></span>
         </div>
-      </nav>
-    </header>
+        <div class="btn-group-difficulty">
+          <input type="radio" name="option-difficulty" id="opt1" checked value="easy" />
+          <label for="opt1">Easy</label>
 
-    <main>
-      <div id="app" class="blur"></div>
-      <section class="text-box">
-        <div id="win-page" class="hide">
-          <div>
-            <h1>Test Complete!</h1>
-            <p>Test your typing speed and accuracy with our typing speed test.</p>
-            <div>
-              <span>WPM: </span><span>40</span> <span>Accurary: </span>
-              <span id="percent">0%</span>
-              <span>Time: <span id="timer">0:60</span></span>
-            </div>
-          </div>
+          <input type="radio" name="option-difficulty" id="opt2" value="medium" />
+          <label for="opt2">Medium</label>
+
+          <input type="radio" name="option-difficulty" id="opt3" value="hard" />
+          <label for="opt3">Hard</label>
         </div>
-      </section>
-    </main>
+        <div class="btn-group-mode">
+          <input type="radio" name="option-mode" id="opt4" checked value="easy" />
+          <label for="opt4">Timer(60s)</label>
 
-    <script type="module" src="/src/main.js"></script>
-    <script type="module" src="/src/modules/json.js"></script>
-  </body>
+          <input type="radio" name="option-mode" id="opt5" value="medium" />
+          <label for="opt5">Passage</label>
+        </div>
+      </div>
+      <div id="app" class="blur">
+      </div>
+    </section>
+    <div id="win-page" class="hide">
+      <div>
+        <h1>Test Complete!</h1>
+        <p>Test your typing speed and accuracy with our typing speed test.</p>
+        <div>
+          <span>WPM: </span><span id="win-wpm">40</span> <span>Accurary: </span>
+          <span id="win-percent">0%</span>
+          <span>Time: <span id="win-timer">0:60</span></span>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/src/modules/json.js"></script>
+</body>
+
 </html>
