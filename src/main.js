@@ -1,11 +1,14 @@
 "use strict";
 
 import { getData } from "./modules/json";
+import confetti from "@hiseb/confetti";
 
 const app = document.querySelector("#app");
 
 let currentIndex = 0;
+let accuracy = 0;
 let letters = [];
+let timeLeft = 60;
 
 const dataJson = await getData();
 
@@ -58,12 +61,16 @@ function handleKeyPress(event) {
     app.classList.remove("blur");
     app.firstChild.classList.add("active");
     const timerButton = document.querySelector("#opt4:checked");
+
     if (timerButton) startTimer();
     return;
   }
 
   const span = getCurrentSpan();
-  if (!span) return;
+  if (!span) {
+    endGame();
+    return;
+  }
 
   letterIndication(span);
   validateLetter(span, event.key);
@@ -90,7 +97,7 @@ function updateAccuracy() {
   const total = app.children.length;
   const errors = app.querySelectorAll("div.wrong").length;
 
-  const accuracy = calculateAccuracy(total, errors);
+  accuracy = calculateAccuracy(total, errors);
   document.querySelector("#percent").textContent = accuracy + "%";
 }
 
@@ -106,14 +113,24 @@ function getCurrentSpan() {
 
 function startTimer() {
   const timerElement = document.querySelector("#timer");
-  let timeLeft = 60;
+  timeLeft = 60;
 
   // TODO: clear setInterval
 
-  const timerInsterval = setInterval(() => {
+  const timerInterval = setInterval(() => {
     timeLeft--;
     timerElement.textContent = `0:${timeLeft < 10 ? "0" + timeLeft : timeLeft}`;
   }, 1000);
 
-  return timerInsterval;
+  setTimeout(() => clearInterval(timerInterval), 60000);
+
+  return timerInterval;
+}
+
+function endGame() {
+  confetti();
+  app.classList.add("hide");
+  document.querySelector("#win-page").classList.remove("hide");
+  document.querySelector("#win-page #percent").textContent = accuracy + "%";
+  document.querySelector("#win-page #timer").textContent = timeLeft + "s";
 }

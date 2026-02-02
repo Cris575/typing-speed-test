@@ -63,6 +63,10 @@ body {
   filter: blur(6px);
 }
 
+.hide {
+  display: none;
+}
+
 .stats {
   display: flex;
 }
@@ -88,7 +92,8 @@ label {
 input[type="radio"] {
   display: none;
 }
-input[type="radio"]:checked + label {
+
+input[type="radio"]:checked+label {
   background-color: var(--color-neutral-500);
 }
 

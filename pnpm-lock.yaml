@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@hiseb/confetti':
+        specifier: ^2.1.0
+        version: 2.1.0
     devDependencies:
       vite:
         specifier: ^7.2.4
@@ -169,6 +173,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@hiseb/confetti@2.1.0':
+    resolution: {integrity: sha512-yPalKd34NfmEsUTXj3ZrlNtj1J21WgoocDs8+92W/Quzl2j5ECuxX5L0jQp16tgvp+uIYdeNAmizP1WPyt5hfQ==}
 
   '@rollup/rollup-android-arm-eabi@4.55.2':
     resolution: {integrity: sha512-21J6xzayjy3O6NdnlO6aXi/urvSRjm6nCI6+nF6ra2YofKruGixN9kfT+dt55HVNwfDmpDHJcaS3JuP/boNnlA==}
@@ -465,6 +472,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.27.2':
     optional: true
+
+  '@hiseb/confetti@2.1.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.55.2':
     optional: true
