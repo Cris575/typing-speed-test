@@ -4,6 +4,7 @@ import { getData } from "./modules/json";
 import confetti from "@hiseb/confetti";
 
 const app = document.querySelector("#app");
+const keysToExclude = ['Enter', 'Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift', 'Control', 'Alt', 'Meta', 'Tab', 'Backspace', 'CapsLock'];
 
 let currentIndex = 0;
 let accuracy = 0;
@@ -27,8 +28,13 @@ function initGame(difficulty, level) {
 }
 
 function initKeyboardListener() {
+
   document.addEventListener("keydown", (event) => {
     if (event.repeat) return;
+
+
+    if (keysToExclude.includes(event.key)) return;
+
     handleKeyPress(event);
   });
 }
@@ -88,6 +94,8 @@ function letterIndication(span) {
 }
 
 function validateLetter(span, key) {
+
+
   const isCorrect = span.textContent.toUpperCase() === key.toUpperCase();
 
   span.classList.add(isCorrect ? "successes" : "wrong");
@@ -131,6 +139,7 @@ function calculateWPM() {
   const total = app.children.length;
   return (total / 5) / parseFloat(timeLeft / 60);
 }
+  confetti({count:150});  
 
 function endGame() {
   confetti();  

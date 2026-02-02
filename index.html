@@ -10,36 +10,56 @@
 </head>
 
 <body>
-  <header>
+  <header class="header flex">
     <div class="logo">
       <img src="assets/images/logo-large.svg" alt="Logotipo de la empresa" role="img">
+    </div>
+    <div class="personal-score">
+      <img src="assets/images/icon-personal-best.svg" alt="Logotipo de la empresa" role="img">
+      <span>Personal Best: <span id="personal-best">100 WPM</span></span>
     </div>
   </header>
   <main>
     <section>
-      <div class="stats">
-        <div>
-          <span>WPM: </span><span>40</span> <span>Accurary: </span>
-          <span id="percent">0%</span>
-          <span>Time: <span id="timer">0:60</span></span>
+      <div class="stats flex">
+        <div class="">
+          <div>
+            <span>WPM: </span><span>40</span>
+          </div>
+          <div>
+            <span>Accurary: </span>
+            <span id="percent">0%</span>
+          </div>
+          <div>
+            <span>Time: <span id="timer">0:60</span></span>
+          </div>
         </div>
-        <div class="btn-group-difficulty">
-          <input type="radio" name="option-difficulty" id="opt1" checked value="easy" />
-          <label for="opt1">Easy</label>
+        <div class="btn-group">
+          <div class="btn-group-difficulty">
+            <div>
+              <input type="radio" name="option-difficulty" id="opt1" checked value="easy" />
+              <label for="opt1">Easy</label>
+            </div>
 
-          <input type="radio" name="option-difficulty" id="opt2" value="medium" />
-          <label for="opt2">Medium</label>
+            <div>
+              <input type="radio" name="option-difficulty" id="opt2" value="medium" />
+              <label for="opt2">Medium</label>
+            </div>
+            <div>
+              <input type="radio" name="option-difficulty" id="opt3" value="hard" />
+              <label for="opt3">Hard</label>
+            </div>
 
-          <input type="radio" name="option-difficulty" id="opt3" value="hard" />
-          <label for="opt3">Hard</label>
+          </div>
+          <div class="btn-group-mode">
+            <input type="radio" name="option-mode" id="opt4" checked value="easy" />
+            <label for="opt4">Timer(60s)</label>
+
+            <input type="radio" name="option-mode" id="opt5" value="medium" />
+            <label for="opt5">Passage</label>
+          </div>
         </div>
-        <div class="btn-group-mode">
-          <input type="radio" name="option-mode" id="opt4" checked value="easy" />
-          <label for="opt4">Timer(60s)</label>
 
-          <input type="radio" name="option-mode" id="opt5" value="medium" />
-          <label for="opt5">Passage</label>
-        </div>
       </div>
       <div id="app" class="blur">
       </div>

@@ -24,7 +24,8 @@ body {
   color: white;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 32px 112px;
+
 }
 
 .successes {
@@ -34,6 +35,11 @@ body {
 .wrong {
   color: var(--color-red-500);
   text-decoration: underline var(--color-red-500) 1px;
+}
+
+.header {
+  justify-content: space-between;
+  margin-bottom: 64px;
 }
 
 #app {
@@ -48,15 +54,19 @@ body {
   max-width: 800px;
   padding: 20px;
 
-  & div {
+  div {
     display: inline-block;
     position: relative;
     white-space: break-spaces;
   }
 
-  & div:not(.wrong):not(.successes) {
+  div:not(.wrong):not(.successes) {
     color: var(--color-neutral-400);
   }
+}
+
+.flex {
+  display: flex;
 }
 
 .blur {
@@ -68,7 +78,7 @@ body {
 }
 
 .stats {
-  display: flex;
+  justify-content: space-between;
 }
 
 .active::after {
@@ -86,7 +96,11 @@ body {
 label {
   border: 1px solid white;
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 3px 8px;
+  border-color: var(--color-neutral-500);
+  border-radius: var(--radius-8);
+  display: inline-block;
+  height: 31px;
 }
 
 input[type="radio"] {
@@ -97,10 +111,8 @@ input[type="radio"]:checked+label {
   background-color: var(--color-neutral-500);
 }
 
-label {
-  border-color: var(--color-neutral-500);
-  border-radius: var(--radius-8);
-  display: inline-block;
-  height: 31px;
-  padding: 10px 6px;
+.stats div {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
