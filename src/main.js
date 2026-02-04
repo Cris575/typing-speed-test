@@ -1,10 +1,24 @@
 "use strict";
 
 import { getData } from "./modules/json";
-import confetti from "@hiseb/confetti";
+import { setPersonalBest } from "./modules/storage";
 
 const app = document.querySelector("#app");
-const keysToExclude = ['Enter', 'Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift', 'Control', 'Alt', 'Meta', 'Tab', 'Backspace', 'CapsLock'];
+const keysToExclude = [
+  "Enter",
+  "Escape",
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowUp",
+  "ArrowDown",
+  "Shift",
+  "Control",
+  "Alt",
+  "Meta",
+  "Tab",
+  "Backspace",
+  "CapsLock",
+];
 
 let currentIndex = 0;
 let accuracy = 0;
@@ -28,10 +42,8 @@ function initGame(difficulty, level) {
 }
 
 function initKeyboardListener() {
-
   document.addEventListener("keydown", (event) => {
     if (event.repeat) return;
-
 
     if (keysToExclude.includes(event.key)) return;
 
@@ -94,8 +106,6 @@ function letterIndication(span) {
 }
 
 function validateLetter(span, key) {
-
-
   const isCorrect = span.textContent.toUpperCase() === key.toUpperCase();
 
   span.classList.add(isCorrect ? "successes" : "wrong");
@@ -137,15 +147,10 @@ function startTimer() {
 
 function calculateWPM() {
   const total = app.children.length;
-  return (total / 5) / parseFloat(timeLeft / 60);
+  return total / 5 / parseFloat(timeLeft / 60);
 }
-  confetti({count:150});  
 
 function endGame() {
-  confetti();  
-  app.classList.add("hide");
-  document.querySelector("#win-page").classList.remove("hide");
-  document.querySelector("#win-page #win-wpm").textContent = calculateWPM();
-  document.querySelector("#win-page #win-percent").textContent = accuracy + "%";
-  document.querySelector("#win-page #win-timer").textContent = timeLeft + "s";
+  setPersonalBest(calculateWPM(), calculateWPM(), accuracy, timeLeft);
+  window.location.href = "../views/win-page.html";
 }
