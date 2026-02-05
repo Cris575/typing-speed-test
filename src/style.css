@@ -42,6 +42,17 @@ body {
   margin-bottom: 64px;
 }
 
+.btn-restart {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
 #app {
   font-family: var(--text-preset-1-regular);
   font-optical-sizing: auto;
@@ -53,6 +64,7 @@ body {
   margin: 0 auto;
   max-width: 800px;
   padding: 20px;
+  position: relative;
 
   div {
     display: inline-block;

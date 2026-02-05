@@ -4,6 +4,7 @@ import { getData } from "./modules/json";
 import { setPersonalBest } from "./modules/storage";
 
 const app = document.querySelector("#app");
+const btnRestart = document.querySelector(".btn-restart");
 const keysToExclude = [
   "Enter",
   "Escape",
@@ -33,7 +34,8 @@ initKeyboardListener();
 /* ---------- INIT ---------- */
 
 function initGame(difficulty, level) {
-  const text = dataJson[difficulty][level].text;
+  // const text = dataJson[difficulty][level].text;
+  const text = dataJson["easy"][0].text;
   if (!text) return;
 
   letters = text.split("");
@@ -55,6 +57,10 @@ function initOptionsListener() {
   document.querySelectorAll("input[name='option-difficulty']").forEach((e) => {
     e.addEventListener("change", changeDifficulty);
   });
+
+  document.querySelector("#btn-restart").addEventListener("click", () => {
+    handleKeyPress();
+  });
 }
 
 function changeDifficulty(option) {
@@ -67,7 +73,7 @@ function changeDifficulty(option) {
 /* ---------- UI ---------- */
 
 function renderText(letters) {
-  app.innerHTML = letters
+  app.innerHTML += letters
     .map((letter) => `<div><span>${letter}</span></div>`)
     .join("");
 }
@@ -77,6 +83,7 @@ function renderText(letters) {
 function handleKeyPress(event) {
   if (app.classList.contains("blur")) {
     app.classList.remove("blur");
+    btnRestart.classList.add("hide");
     app.firstChild.classList.add("active");
     const timerButton = document.querySelector("#opt4:checked");
 
