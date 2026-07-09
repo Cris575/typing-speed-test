@@ -35,7 +35,7 @@ initKeyboardListener();
 
 function initGame(difficulty, level) {
   // const text = dataJson[difficulty][level].text;
-  const text = dataJson["easy"][0].text;
+  const text = dataJson[difficulty][0].text;
   if (!text) return;
 
   letters = text.split("");
@@ -73,7 +73,7 @@ function changeDifficulty(option) {
 /* ---------- UI ---------- */
 
 function renderText(letters) {
-  app.innerHTML += letters
+  app.innerHTML = letters
     .map((letter) => `<div><span>${letter}</span></div>`)
     .join("");
 }
@@ -84,7 +84,7 @@ function handleKeyPress(event) {
   if (app.classList.contains("blur")) {
     app.classList.remove("blur");
     btnRestart.classList.add("hide");
-    app.firstChild.classList.add("active");
+    app.firstElementChild.classList.add("active");
     const timerButton = document.querySelector("#opt4:checked");
 
     if (timerButton) startTimer();
