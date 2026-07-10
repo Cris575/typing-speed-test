@@ -5,6 +5,7 @@ import { setPersonalBest } from "./modules/storage";
 
 const app = document.querySelector("#app");
 const btnRestart = document.querySelector(".btn-restart");
+const accuraryPercent = document.querySelector("#percent");
 const keysToExclude = [
   "Enter",
   "Escape",
@@ -28,59 +29,32 @@ let timeLeft = 60;
 
 const dataJson = await getData();
 
-initGame("easy", 0);
-initKeyboardListener();
-
-/* ---------- INIT ---------- */
-
-function initGame(difficulty, level) {
-  // const text = dataJson[difficulty][level].text;
-  const text = dataJson[difficulty][0].text;
-  if (!text) return;
-
-  letters = text.split("");
-  renderText(letters);
-  initOptionsListener();
-}
-
-function initKeyboardListener() {
-  document.addEventListener("keydown", (event) => {
-    if (event.repeat) return;
-
-    if (keysToExclude.includes(event.key)) return;
-
-    handleKeyPress(event);
-  });
-}
-
-function initOptionsListener() {
-  document.querySelectorAll("input[name='option-difficulty']").forEach((e) => {
-    e.addEventListener("change", changeDifficulty);
-  });
-
-  document.querySelector("#btn-restart").addEventListener("click", () => {
-    handleKeyPress();
-  });
-}
-
-function changeDifficulty(option) {
-  const difficulty = option.target.value;
-  const level = Math.floor(Math.random() * 10);
-
-  initGame(difficulty, level);
-}
-
-/* ---------- UI ---------- */
-
-function renderText(letters) {
-  app.innerHTML = letters
-    .map((letter) => `<div><span>${letter}</span></div>`)
-    .join("");
-}
-
 /* ---------- LOGIC ---------- */
 
-function handleKeyPress(event) {
+const LetterIndication = function (span) {
+  const next = span.nextSibling;
+  const previous = next?.previousSibling;
+
+  next?.classList.add("active");
+  previous?.classList.remove("active");
+};
+
+const ValidateLetter = function (span, key) {
+  const isCorrect = span.textContent.toUpperCase() === key.toUpperCase();
+  const _class = isCorrect ? "successes" : "wrong";
+
+  span.classList.add(_class);
+};
+
+const UpdateAccuracy = function () {
+  const totalOfElements = app.childElementCount;
+  const errors = app.querySelectorAll("div.wrong").length;
+
+  accuracy = calculateAccuracy(totalOfElements, errors);
+  accuraryPercent.textContent = `${accuracy}%`;
+};
+
+const HandleKeyPress = function (event) {
   if (app.classList.contains("blur")) {
     app.classList.remove("blur");
     btnRestart.classList.add("hide");
@@ -97,34 +71,62 @@ function handleKeyPress(event) {
     return;
   }
 
-  letterIndication(span);
-  validateLetter(span, event.key);
-  updateAccuracy();
+  LetterIndication(span);
+  ValidateLetter(span, event.key);
+  UpdateAccuracy();
 
   currentIndex++;
-}
+};
 
-function letterIndication(span) {
-  const next = span.nextSibling;
-  const previous = next?.previousSibling;
+/* ---------- UI ---------- */
 
-  next?.classList.add("active");
-  previous?.classList.remove("active");
-}
+const RenderText = function (difficulty, level) {
+  const text = dataJson[difficulty][level].text;
+  if (!text) return;
 
-function validateLetter(span, key) {
-  const isCorrect = span.textContent.toUpperCase() === key.toUpperCase();
+  letters = text
+    .split("")
+    .map((letter) => `<div><span>${letter}</span></div>`)
+    .join("");
 
-  span.classList.add(isCorrect ? "successes" : "wrong");
-}
+  app.innerHTML = letters;
+};
 
-function updateAccuracy() {
-  const total = app.children.length;
-  const errors = app.querySelectorAll("div.wrong").length;
+/* ---------- INIT ---------- */
 
-  accuracy = calculateAccuracy(total, errors);
-  document.querySelector("#percent").textContent = accuracy + "%";
-}
+const ChangeDifficulty = function (option) {
+  const difficulty = option.target.value;
+
+  RenderText(difficulty, 0);
+};
+
+const InitOptionsListener = function () {
+  document.querySelectorAll(".option-difficulty").forEach((e) => {
+    e.addEventListener("change", ChangeDifficulty);
+  });
+
+  document.querySelector("#btn-restart").addEventListener("click", () => {
+    HandleKeyPress();
+  });
+};
+
+const InitGame = function () {
+  RenderText("easy", 0);
+  InitKeyboardListener();
+  InitOptionsListener();
+};
+
+const InitKeyboardListener = function () {
+  document.addEventListener("keydown", (event) => {
+    if (event.repeat) return;
+
+    if (keysToExclude.includes(event.key)) return;
+
+    HandleKeyPress(event);
+  });
+};
+
+InitGame();
 
 /* ---------- PURE FUNCTIONS ---------- */
 
