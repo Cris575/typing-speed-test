@@ -4,8 +4,10 @@ import { getData } from "./modules/json";
 import { setPersonalBest } from "./modules/storage";
 
 const app = document.querySelector("#app");
+let totalOfLetters;
 const btnRestart = document.querySelector(".btn-restart");
 const accuraryPercent = document.querySelector("#percent");
+let isTimerRunning = false;
 const keysToExclude = [
   "Enter",
   "Escape",
@@ -31,6 +33,10 @@ const dataJson = await getData();
 
 /* ---------- LOGIC ---------- */
 
+const CalculateAccuracy = (total, errors) => {
+  return (100 - (errors / total) * 100).toFixed(2);
+};
+
 const LetterIndication = function (span) {
   const next = span.nextSibling;
   const previous = next?.previousSibling;
@@ -46,27 +52,19 @@ const ValidateLetter = function (span, key) {
   span.classList.add(_class);
 };
 
+console.log(totalOfLetters);
+
 const UpdateAccuracy = function () {
-  const totalOfElements = app.childElementCount;
+  const totalOfElements = totalOfLetters;
   const errors = app.querySelectorAll("div.wrong").length;
 
-  accuracy = calculateAccuracy(totalOfElements, errors);
+  accuracy = CalculateAccuracy(totalOfElements, errors);
   accuraryPercent.textContent = `${accuracy}%`;
 };
 
 const HandleKeyPress = function (event) {
-  if (app.classList.contains("blur")) {
-    app.classList.remove("blur");
-    btnRestart.classList.add("hide");
-    app.firstElementChild.classList.add("active");
-    const timerButton = document.querySelector("#opt4:checked");
-
-    if (timerButton) startTimer();
-    return;
-  }
-
   const span = getCurrentSpan();
-  if (!span) {
+  if (currentIndex === totalOfLetters) {
     endGame();
     return;
   }
@@ -74,6 +72,8 @@ const HandleKeyPress = function (event) {
   LetterIndication(span);
   ValidateLetter(span, event.key);
   UpdateAccuracy();
+
+  if (!isTimerRunning) startTimer();
 
   currentIndex++;
 };
@@ -105,15 +105,7 @@ const InitOptionsListener = function () {
     e.addEventListener("change", ChangeDifficulty);
   });
 
-  document.querySelector("#btn-restart").addEventListener("click", () => {
-    HandleKeyPress();
-  });
-};
-
-const InitGame = function () {
-  RenderText("easy", 0);
-  InitKeyboardListener();
-  InitOptionsListener();
+  document.querySelector("#btn-restart").addEventListener("click", InitGame);
 };
 
 const InitKeyboardListener = function () {
@@ -126,36 +118,47 @@ const InitKeyboardListener = function () {
   });
 };
 
-InitGame();
+const InitGame = function () {
+  app.classList.remove("blur");
+  app.firstElementChild.classList.add("active");
+
+  btnRestart.classList.add("hide");
+};
+
+(() => {
+  RenderText("easy", 0);
+  InitKeyboardListener();
+  InitOptionsListener();
+
+  totalOfLetters = app.childElementCount;
+})();
+
+// InitGame();
 
 /* ---------- PURE FUNCTIONS ---------- */
-
-function calculateAccuracy(total, errors) {
-  return (100 - (errors / total) * 100).toFixed(2);
-}
 
 function getCurrentSpan() {
   return app.children[currentIndex];
 }
 
 function startTimer() {
-  const timerElement = document.querySelector("#timer");
-  timeLeft = 60;
+  isTimerRunning = true;
 
-  // TODO: clear setInterval
+  const timerElement = document.querySelector("#timer");
 
   const timerInterval = setInterval(() => {
     timeLeft--;
-    timerElement.textContent = `0:${timeLeft < 10 ? "0" + timeLeft : timeLeft}`;
+    // timerElement.textContent = `0:${timeLeft < 10 ? "0" + timeLeft : timeLeft}`;
+    timerElement.textContent = `0:${timeLeft.toString().padStart(2, "0")}`;
   }, 1000);
 
-  setTimeout(() => clearInterval(timerInterval), 60000);
+  if (timeLeft === 0) clearInterval(timerInterval);
 
   return timerInterval;
 }
 
 function calculateWPM() {
-  const total = app.children.length;
+  const total = app.totalOfElements;
   return total / 5 / parseFloat(timeLeft / 60);
 }
 
