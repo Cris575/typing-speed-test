@@ -7,7 +7,8 @@ const app = document.querySelector("#app");
 let totalOfLetters;
 const btnRestart = document.querySelector(".btn-restart");
 const accuraryPercent = document.querySelector("#percent");
-let isTimerRunning = false;
+const currentScore = document.querySelector(".curren-score");
+const bestScore = document.querySelector(".best-score");
 const keysToExclude = [
   "Enter",
   "Escape",
@@ -24,10 +25,14 @@ const keysToExclude = [
   "CapsLock",
 ];
 
+const { personalBestScore } =
+  JSON.parse(localStorage.getItem("personal-best")) || {};
+
+let gameStart = false;
 let currentIndex = 0;
 let accuracy = 0;
-let letters = [];
 let timeLeft = 60;
+let letters = [];
 
 const dataJson = await getData();
 
@@ -52,8 +57,6 @@ const ValidateLetter = function (span, key) {
   span.classList.add(_class);
 };
 
-console.log(totalOfLetters);
-
 const UpdateAccuracy = function () {
   const totalOfElements = totalOfLetters;
   const errors = app.querySelectorAll("div.wrong").length;
@@ -73,7 +76,7 @@ const HandleKeyPress = function (event) {
   ValidateLetter(span, event.key);
   UpdateAccuracy();
 
-  if (!isTimerRunning) startTimer();
+  if (!gameStart) startTimer();
 
   currentIndex++;
 };
@@ -90,6 +93,8 @@ const RenderText = function (difficulty, level) {
     .join("");
 
   app.innerHTML = letters;
+
+  totalOfLetters = app.childElementCount;
 };
 
 /* ---------- INIT ---------- */
@@ -123,14 +128,17 @@ const InitGame = function () {
   app.firstElementChild.classList.add("active");
 
   btnRestart.classList.add("hide");
+
+  InitKeyboardListener();
 };
 
 (() => {
   RenderText("easy", 0);
-  InitKeyboardListener();
   InitOptionsListener();
 
-  totalOfLetters = app.childElementCount;
+  personalBestScore
+    ? (bestScore.textContent = ` ${personalBestScore}  WPM`)
+    : (bestScore.textContent = "0 WPM");
 })();
 
 // InitGame();
@@ -142,7 +150,7 @@ function getCurrentSpan() {
 }
 
 function startTimer() {
-  isTimerRunning = true;
+  gameStart = true;
 
   const timerElement = document.querySelector("#timer");
 
@@ -157,12 +165,11 @@ function startTimer() {
   return timerInterval;
 }
 
-function calculateWPM() {
-  const total = app.totalOfElements;
-  return total / 5 / parseFloat(timeLeft / 60);
-}
+const calculateWPM = () =>
+  Math.floor(totalOfLetters / 5 / parseFloat(timeLeft / 60));
 
 function endGame() {
-  setPersonalBest(calculateWPM(), calculateWPM(), accuracy, timeLeft);
-  window.location.href = "../views/win-page.html";
+  const finalWPN = calculateWPM();
+  setPersonalBest(finalWPN, finalWPN, accuracy, timeLeft);
+  // window.location.href = "../views/win-page.html";
 }
